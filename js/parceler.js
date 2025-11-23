@@ -73,9 +73,9 @@ SSHyClient.parceler.prototype = {
 		if (!this.transport.remote_version) {
   			var end = r.indexOf('\r\n');
   			if (end != -1) {
-    			var rv = r.slice(0, end+2);
-    			this.transport.handler_table[0](this.transport, rv);
-    			r = r.slice(end+2);
+	    			var rv = r.slice(0, end+2);
+    				this.transport.handler_table[0](this.transport, rv);
+    				r = r.slice(end+2);
   			} // else that would be bad and probably we should die here
   			if (r.length<=0) { return; }
 		}
