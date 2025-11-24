@@ -266,12 +266,19 @@ function startxtermjs() {
     });
     term.attachCustomKeyEventHandler(e=> {
 		// Sanity Checks
-        if (e.type != 'keydown') {return;}
+        if (e.type != 'keydown') {return true;}
 
-        // If websocket is closed, ran out of attempts to authenticate, or just
+	// Some weird things here in Safari 26.0.1 onwards.
+	// Looks like if we return
+	// false too much we lose keydown and keypress (but not keyup)
+	// Got to be a bug, but in the meantime just work around it
+	// onData is guarded anyway, so using true when it should be false
+	// makes no difference here, just seems illogical
+
+	// If websocket is closed, ran out of attempts to authenticate, or just
         // waiting to confirm the username and password, dont forward keys
         if (!ws || !transport || transport.auth.failedAttempts >= 5 || transport.auth.awaitingAuthentication) {
-          return false;
+          return true; // Should be false
         }
         var pressedKey
         /** IE isn't very good so it displays one character keys as full names in .key 
@@ -293,18 +300,18 @@ function startxtermjs() {
 
         // onData does the majority of sending keys for transport
         if (transport.auth.authenticated) {
-          return;
+          return true;
         }
         // Not yet authenticated
 
         // For usernames and passwords only named keys Delete and Enter is ok
         // so we can't input stuff like 'ArrowUp'
         if ((pressedKey.length > 1) && (e.keyCode != 13 && e.keyCode != 8)){
-            return;
+            return true; // should be false
         }
         // Other clients doesn't allow control characters during authentication
         if (e.altKey || e.ctrlKey || e.metaKey) {
-          return;
+          return false;
         }
 			/* while termPassword is undefined, add all input to termUsername
 			   when it becomes defined then change targets to transport.auth.termPassword */
@@ -318,7 +325,6 @@ function startxtermjs() {
                     } else {
                         transport.auth.termPassword = transport.auth.termPassword.slice(0, transport.auth.termPassword.length - 1);
                     }
-                    return false;
                     break;
                 case 13: // enter
                     if (transport.auth.termPassword === undefined) {
@@ -328,7 +334,6 @@ function startxtermjs() {
                         term.write('\n\r');
                         transport.auth.ssh_connection();
                     }
-                    return false;
                     break;
                 default:
                     if (transport.auth.termPassword === undefined) {
@@ -338,6 +343,6 @@ function startxtermjs() {
                         transport.auth.termPassword += pressedKey;
                     }
             }
-            return false;
+            return true; // should be false but causes issues with Safari
     });
 }
