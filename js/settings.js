@@ -245,7 +245,7 @@ SSHyClient.settings.prototype = {
     // Modify the font size of the terminal 
     modFontSize: function(sign) { 
         this.fontSize += sign; 
-        term.option.fontSize=this.fontSize
+        term.options.fontSize=this.fontSize
         
         document.getElementById("currentFontSize").innerHTML = transport.settings.fontSize + 'px'; 
         // Recalculate rows/cols
