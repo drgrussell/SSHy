@@ -3,7 +3,10 @@
 # so this little script builds the libraries in a fast and unobscure way.
 # Does not minify or need a java closure compiler.
 
-rm -f js/combinedJS.comb.js
+[ ! -f node_modules/\@xterm/xterm/lib/xterm.js ] && echo "run npm install" && exit 1
+[ ! -f node_modules/\@xterm/addon-fit/lib/addon-fit.js ] && echo "run npm install" && exit 1
+
+rm -f lib/combinedJS.comb.js
 
 cat \
 js/defines.js \
@@ -15,18 +18,18 @@ js/src/struct.min.js \
 js/src/utilities.min.js \
 js/dhKex.js \
 js/transport.js \
-js/src/xterm-addon-fit.js \
+node_modules/\@xterm/addon-fit/lib/addon-fit.js \
 js/auth_handler.js \
 js/crypto.js \
 js/message.js \
 js/parceler.js \
 js/rsaKey.js \
-js/src/xterm.js \
+node_modules/\@xterm/xterm/lib/xterm.js \
 js/settings.js \
 js/SSHyClient.js \
->> js/combinedJS.comb.js
+> lib/combinedJS.comb.js
 
-rm -f js/combinedLibs.comb.js
+rm -f lib/combinedLibs.comb.js
 
 cat \
 js/defines.js \
@@ -38,13 +41,13 @@ js/src/struct.min.js \
 js/src/utilities.min.js \
 js/dhKex.js \
 js/transport.js \
-js/src/xterm-addon-fit.js \
+node_modules/\@xterm/addon-fit/lib/addon-fit.js \
 js/auth_handler.js \
 js/crypto.js \
 js/message.js \
 js/parceler.js \
 js/rsaKey.js \
-js/src/xterm.js \
+node_modules/\@xterm/xterm/lib/xterm.js \
 js/settings.js \
->> js/combinedLibs.comb.js
+> lib/combinedLibs.comb.js
 

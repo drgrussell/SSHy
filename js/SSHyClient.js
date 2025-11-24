@@ -220,7 +220,7 @@ function termInit() {
         //rows: 24 
     });
 
-    fitAddon = new FitAddon();
+    fitAddon = new FitAddon.FitAddon();
     term.loadAddon(fitAddon);
     // start xterm.js
     term.open(document.getElementById('terminal'), true);

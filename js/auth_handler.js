@@ -1,3 +1,4 @@
+
 SSHyClient.auth = function(parceler) {
     this.parceler = parceler; // We shouldn't need anything from the transport handler
     this.authenticated = null;

@@ -1,3 +1,4 @@
+
 SSHyClient.settings = function() {
     // Local echo reduces latency on regular key presses to aruond 0.04s compared to ~0.2s without it
     this.localEcho = 0; // 0 - off; 1 - auto; 2 - on
@@ -159,7 +160,7 @@ SSHyClient.settings.prototype = {
 
         // Interact with xtermjs
         if (term) {
-        	term.setOption('theme',themeColors)
+        	term.options.theme=themeColors
 		}
 
         // Remove the old CSS rules if its a custom theme
@@ -244,7 +245,7 @@ SSHyClient.settings.prototype = {
     // Modify the font size of the terminal 
     modFontSize: function(sign) { 
         this.fontSize += sign; 
-        term.setOption('fontSize', this.fontSize)
+        term.option.fontSize=this.fontSize
         
         document.getElementById("currentFontSize").innerHTML = transport.settings.fontSize + 'px'; 
         // Recalculate rows/cols
